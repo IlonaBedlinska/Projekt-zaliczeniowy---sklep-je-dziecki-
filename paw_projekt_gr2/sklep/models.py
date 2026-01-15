@@ -33,8 +33,8 @@ class Produkt(models.Model):
         verbose_name_plural = "Produkty"
         ordering = ['-utworzono'] 
         constraints = [
-            CheckConstraint(check=Q(cena__gte=0), name='cena_nieujemna'),
-            CheckConstraint(check=Q(stan_magazynowy__gte=0), name='stan_nieujemny'),
+           CheckConstraint(condition=Q(cena__gte=0), name='cena_nieujemna'),
+           CheckConstraint(condition=Q(stan_magazynowy__gte=0), name='stan_nieujemny'),
         ]
 
     def __str__(self):
