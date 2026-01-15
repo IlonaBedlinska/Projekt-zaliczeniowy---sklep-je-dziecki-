@@ -1,0 +1,14 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f1ea; 
+    margin: 20px;
+}
+h1 { color: #4a3b2a; } 
+a { text-decoration: none; color: #8b4513; font-weight: bold; }
+.product-card {
+    border: 1px solid #ccc;
+    background: white;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}

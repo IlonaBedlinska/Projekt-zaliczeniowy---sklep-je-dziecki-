@@ -1,0 +1,29 @@
+{% extends "sklep/base.html" %}
+
+{% block title %}{{ produkt.nazwa }}{% endblock %}
+
+{% block content %}
+    <h2>{{ produkt.nazwa }}</h2>
+    
+    <p><strong>Opis:</strong> {{ produkt.opis }}</p>
+    <p><strong>Cena:</strong> {{ produkt.cena }} zł</p>
+    <p><strong>Stan magazynowy:</strong> {{ produkt.stan_magazynowy }} szt.</p>
+    
+    {% if produkt.dostepny %}
+        <p style="color: green;">Produkt dostępny</p>
+    {% else %}
+        <p style="color: red;">Produkt niedostępny</p>
+    {% endif %}
+
+    <br>
+    
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" onclick="return confirm('Czy na pewno chcesz usunąć to siodło/sprzęt?');" style="background-color: darkred; color: white;">
+            Usuń produkt z bazy
+        </button>
+    </form>
+    
+    <br>
+    <a href="{% url 'produkt-list-html' %}">← Powrót do listy</a>
+{% endblock %}

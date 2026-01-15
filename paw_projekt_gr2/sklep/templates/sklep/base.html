@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Sklep Jeździecki{% endblock %}</title>
+    <link href="{% static 'css/styl.css' %}" rel="stylesheet">
+</head>
+<body>
+    <div id="header">
+        <h1>🐎 Mój Sklep Jeździecki</h1>
+        <nav>
+            <a href="{% url 'produkt-list-html' %}">Lista produktów</a> | 
+            <a href="{% url 'produkt-create-html' %}">Dodaj produkt</a>
+        </nav>
+    </div>
+    <hr>
+    
+    <div id="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <div id="footer">
+        <hr>
+        <p>&copy; Sklep Jeździecki </p>
+    </div>
+</body>
+</html>

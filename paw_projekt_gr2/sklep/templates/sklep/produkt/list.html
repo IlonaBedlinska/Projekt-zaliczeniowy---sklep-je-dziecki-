@@ -1,0 +1,21 @@
+{% extends "sklep/base.html" %}
+
+{% block title %}Lista produktów{% endblock %}
+
+{% block content %}
+    <h2>Nasza oferta</h2>
+    
+    {% for produkt in produkty %}
+        <div class="product-card">
+            <h3>
+                <a href="{% url 'produkt-detail-html' produkt.id %}">
+                    {{ produkt.nazwa }}
+                </a>
+            </h3>
+            <p>Cena: <strong>{{ produkt.cena }} PLN</strong></p>
+            <p>Kategoria: {{ produkt.kategoria.nazwa }}</p>
+        </div>
+    {% empty %}
+        <p>Brak produktów w sklepie.</p>
+    {% endfor %}
+{% endblock %}

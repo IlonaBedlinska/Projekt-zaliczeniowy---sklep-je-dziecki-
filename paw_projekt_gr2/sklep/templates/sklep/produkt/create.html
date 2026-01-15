@@ -1,0 +1,32 @@
+{% extends "sklep/base.html" %}
+
+{% block title %}Dodaj nowy produkt{% endblock %}
+
+{% block content %}
+    <h2>Dodaj nowy sprzęt jeździecki</h2>
+    
+    <form method="post">
+        {% csrf_token %}
+        
+        <label>Nazwa:</label><br>
+        <input type="text" name="nazwa" required><br><br>
+        
+        <label>Opis:</label><br>
+        <textarea name="opis"></textarea><br><br>
+        
+        <label>Cena (PLN):</label><br>
+        <input type="number" step="0.01" name="cena" required><br><br>
+
+        <label>Ilość:</label><br>
+        <input type="number" name="ilosc" value="1"><br><br>
+        
+        <label>Kategoria:</label><br>
+        <select name="kategoria">
+            {% for kat in kategorie %}
+                <option value="{{ kat.id }}">{{ kat.nazwa }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <button type="submit">Zapisz w bazie</button>
+    </form>
+{% endblock %}
