@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Kategoria, Produkt
+from .models import Kategoria, Produkt, Zamowienie, PozycjaZamowienia
 
 class KategoriaAdmin(admin.ModelAdmin):
     list_display = ['nazwa', 'slug']
@@ -19,3 +19,13 @@ class ProduktAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('nazwa',)}
 
 admin.site.register(Produkt, ProduktAdmin)
+
+
+class PozycjaInline(admin.TabularInline):
+    model = PozycjaZamowienia
+    extra = 1
+
+@admin.register(Zamowienie)
+class ZamowienieAdmin(admin.ModelAdmin):
+    list_display = ['id', 'user', 'data_zamowienia', 'status']
+    inlines = [PozycjaInline]

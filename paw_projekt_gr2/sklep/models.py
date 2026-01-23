@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
 from django.db.models import Q, CheckConstraint
+from django.contrib.auth.models import User
 
 class Kategoria(models.Model):
     nazwa = models.CharField(max_length=100, unique=True)
@@ -54,5 +55,32 @@ class Produkt(models.Model):
         super().delete(*args, **kwargs)
 
     def get_absolute_url(self):
- 
         return reverse('produkt_detail', args=[self.slug])
+    
+
+class Zamowienie(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='zamowienia')
+    data_zamowienia = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(
+        max_length=20, 
+        choices=[('nowe', 'Nowe'), ('oplacone', 'Opłacone'), ('wyslane', 'Wysłane')],
+        default='nowe'
+    )
+
+    def __str__(self):
+        return f"Zamówienie {self.id} - {self.user.username}"
+    
+class PozycjaZamowienia(models.Model):
+    zamowienie = models.ForeignKey(Zamowienie, on_delete=models.CASCADE, related_name='pozycje')
+    produkt = models.ForeignKey('Produkt', on_delete=models.CASCADE)
+    ilosc = models.PositiveIntegerField(default=1) 
+    
+    cena_przy_zakupie = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        if not self.cena_przy_zakupie:
+            self.cena_przy_zakupie = self.produkt.cena
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.produkt.nazwa} x {self.ilosc}"

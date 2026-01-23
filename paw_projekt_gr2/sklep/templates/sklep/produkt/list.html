@@ -6,7 +6,7 @@
     <h2>Nasza oferta</h2>
     
     {% for produkt in produkty %}
-        <div class="product-card">
+        <div class="product-card" style="border: 1px solid #ddd; padding: 15px; margin-bottom: 15px; border-radius: 5px;">
             <h3>
                 <a href="{% url 'produkt-detail-html' produkt.id %}">
                     {{ produkt.nazwa }}
@@ -14,7 +14,22 @@
             </h3>
             <p>Cena: <strong>{{ produkt.cena }} PLN</strong></p>
             <p>Kategoria: {{ produkt.kategoria.nazwa }}</p>
-        </div>
+
+            <div style="margin-top: 10px;">
+                {% if request.user.is_authenticated %}
+                    <form action="{% url 'dodaj-do-koszyka' produkt.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" style="background-color: #28a745; color: white; padding: 8px 15px; border: none; cursor: pointer; border-radius: 3px;">
+                            🛒 Do koszyka
+                        </button>
+                    </form>
+                {% else %}
+                    <p style="font-size: 0.9em; color: grey;">
+                        <a href="{% url 'user-login' %}">Zaloguj się</a>, aby dodać do koszyka.
+                    </p>
+                {% endif %}
+            </div>
+            </div>
     {% empty %}
         <p>Brak produktów w sklepie.</p>
     {% endfor %}

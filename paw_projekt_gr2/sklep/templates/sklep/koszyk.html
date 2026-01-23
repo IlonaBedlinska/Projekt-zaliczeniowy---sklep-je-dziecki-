@@ -1,0 +1,39 @@
+{% extends "sklep/base.html" %}
+
+{% block title %}Twój Koszyk{% endblock %}
+
+{% block content %}
+<h2>Twój Koszyk</h2>
+
+{% if pozycje %}
+    <table border="1" cellpadding="10" style="border-collapse: collapse; width: 100%;">
+        <thead>
+            <tr style="background-color: #f2f2f2;">
+                <th>Produkt</th>
+                <th>Cena</th>
+                <th>Ilość</th>
+                <th>Suma</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pozycja in pozycje %}
+            <tr>
+                <td>{{ pozycja.produkt.nazwa }}</td>
+                <td>{{ pozycja.cena_przy_zakupie }} PLN</td>
+                <td>{{ pozycja.ilosc }} szt.</td>
+                <td>{% widthratio pozycja.cena_przy_zakupie 1 pozycja.ilosc %} PLN</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <h3 style="text-align: right; margin-top: 20px;">Razem do zapłaty: {{ suma }} PLN</h3>
+    
+    <div style="text-align: right;">
+        <button style="background: green; color: white; padding: 10px; border: none; cursor: pointer;">Zamów</button>
+    </div>
+{% else %}
+    <p>Twój koszyk jest pusty. <a href="{% url 'produkt-list-html' %}">Idź na zakupy!</a></p>
+{% endif %}
+
+{% endblock %}

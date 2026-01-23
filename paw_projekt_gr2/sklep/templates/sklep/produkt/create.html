@@ -5,20 +5,36 @@
 {% block content %}
     <h2>Dodaj nowy sprzęt jeździecki</h2>
     
+    {% if errors %}
+        <div style="background-color: #ffe6e6; border: 1px solid red; padding: 15px; margin-bottom: 20px; color: #cc0000;">
+            <h3>Wystąpiły błędy formularza:</h3>
+            <ul>
+                {% for field, error_list in errors.items %}
+                    <li>
+                        <strong>{{ field|title }}:</strong> 
+                        {% for error in error_list %}
+                            {{ error }}
+                        {% endfor %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
     <form method="post">
         {% csrf_token %}
         
         <label>Nazwa:</label><br>
-        <input type="text" name="nazwa" required><br><br>
+        <input type="text" name="nazwa" value="{{ old_data.nazwa|default:'' }}" required><br><br>
         
         <label>Opis:</label><br>
-        <textarea name="opis"></textarea><br><br>
+        <textarea name="opis" rows="4" cols="50">{{ old_data.opis|default:'' }}</textarea><br><br>
         
         <label>Cena (PLN):</label><br>
-        <input type="number" step="0.01" name="cena" required><br><br>
+        <input type="number" step="0.01" name="cena" value="{{ old_data.cena|default:'' }}" required><br><br>
 
         <label>Ilość:</label><br>
-        <input type="number" name="ilosc" value="1"><br><br>
+        <input type="number" name="stan_magazynowy" value="{{ old_data.stan_magazynowy|default:'1' }}"><br><br>
         
         <label>Kategoria:</label><br>
         <select name="kategoria">

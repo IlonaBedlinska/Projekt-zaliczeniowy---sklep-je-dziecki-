@@ -1,8 +1,8 @@
 from rest_framework import serializers
 from .models import Kategoria, Produkt
+from django.contrib.auth.models import User
 
 def sprawdz_opis(value):
-    """Sprawdza, czy opis nie jest zbyt krótki."""
     if len(value) < 10:
         raise serializers.ValidationError("Opis jest za krótki! Musi mieć min. 10 znaków.")
 
@@ -21,13 +21,11 @@ class ProduktSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'slug', 'utworzono'] 
 
     def validate_nazwa(self, value):
-        """Sprawdza, czy nazwa produktu zaczyna się z wielkiej litery."""
         if not value[0].isupper():
             raise serializers.ValidationError("Nazwa produktu musi zaczynać się z wielkiej litery!")
         return value
 
     def validate(self, data):
-        """Sprawdza logikę biznesową między ceną a stanem magazynowym."""
         cena = data.get('cena')
         stan = data.get('stan_magazynowy')
         dostepny = data.get('dostepny')
@@ -44,3 +42,4 @@ class ProduktSerializer(serializers.ModelSerializer):
             })
 
         return data
+    
