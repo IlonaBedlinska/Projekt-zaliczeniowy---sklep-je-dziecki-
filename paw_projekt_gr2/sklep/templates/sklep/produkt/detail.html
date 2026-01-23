@@ -9,12 +9,11 @@
     <p><strong>Cena:</strong> {{ produkt.cena }} zł</p>
     <p><strong>Stan magazynowy:</strong> {{ produkt.stan_magazynowy }} szt.</p>
     
-    {% if produkt.dostepny %}
-        <p style="color: green;">Produkt dostępny</p>
+    {% if produkt.dostepny and produkt.stan_magazynowy > 0 %}
+        <p style="color: green;">Produkt dostępny ({{ produkt.stan_magazynowy }} szt.)</p>
     {% else %}
-        <p style="color: red;">Produkt niedostępny</p>
+        <p style="color: red;">Produkt niedostępny (Brak w magazynie)</p>
     {% endif %}
-
     <br>
     
     <form method="post">
